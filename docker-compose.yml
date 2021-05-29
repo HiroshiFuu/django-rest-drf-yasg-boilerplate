@@ -1,0 +1,11 @@
+version: "3"
+
+services:
+
+  web:
+    build: .
+    command: python3 manage.py runserver_plus
+    ports:
+      - "8000:8000"
+    volumes:
+      - /home/user/django-rest-drf-yasg-boilerplate/logs:/app/logs

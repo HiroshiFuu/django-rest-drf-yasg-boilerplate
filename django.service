@@ -1,0 +1,12 @@
+[Unit]
+Description=uWSGI instance to serve MyTemplate
+
+[Service]
+ExecStart=/bin/bash /home/user/django-rest-drf-yasg-boilerplate/uwsgi.sh
+Restart=always
+KillSignal=SIGQUIT
+Type=notify
+NotifyAccess=all
+
+[Install]
+WantedBy=multi-user.target

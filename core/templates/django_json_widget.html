@@ -1,0 +1,63 @@
+<style type="text/css">
+.jsoneditor span {
+    font-size: 13px !important;
+    line-height: 100% !important;
+}
+
+.jsoneditor .jsoneditor-search input {
+    width: 120px !important;
+    min-height: unset !important;
+}
+
+button.pico-close {
+    border-radius: 2px !important;
+    border: 0px !important;
+    padding: 0px !important;
+    top: 5px !important;
+    right: 5px !important;
+    font-size: 16px !important;
+    background: rgb(204, 204, 204) !important;
+}
+
+.jsoneditor-contextmenu .jsoneditor-menu li {
+    border-top: unset !important;
+    padding: inherit !important;
+    font-size: 10pt !important;
+}
+
+body .module .jsoneditor-tree div, body .module .jsoneditor-tree table, body .module .jsoneditor-tree tbody, body .module .jsoneditor-tree tr {
+    line-height: 100% !important;
+    font-size: 10pt !important;
+    margin-bottom: unset !important;
+}
+
+.jsoneditor-tree table tr:nth-child(even), .jsoneditor-tree table tr:nth-child(even) .errorlist, .jsoneditor-tree table tr:nth-child(odd) + .row-form-errors, .jsoneditor-tree table tr:nth-child(odd) + .row-form-errors .errorlist {
+    background: unset !important;
+}
+
+p {
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
+</style>
+<div {% if not widget.attrs.style %}style="height:{{widget.height|default:'600px'}};width:{{widget.width|default:'100%'}};display:inline-block;" {% endif %}{% include "django/forms/widgets/attrs.html" %}></div>
+<textarea id="{{widget.attrs.id}}_textarea" name="{{ widget.name }}" required="" style="display: none">{{ widget.value }}</textarea>
+<script>
+(function() {
+    var container = document.getElementById("{{ widget.attrs.id }}");
+    var textarea = document.getElementById("{{widget.attrs.id}}_textarea");
+
+    var options = {{ widget.options | safe }};
+    options.onChange = function() {
+        var json = editor.get();
+        textarea.value = JSON.stringify(json);
+    }
+
+    var editor = new JSONEditor(container, options);
+    var json = {{ widget.value | safe }};
+    editor.set(json);
+})();
+</script>

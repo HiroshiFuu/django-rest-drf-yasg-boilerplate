@@ -1,0 +1,21 @@
+.change-list #changelist #has-filters~.paginator, .change-list #changelist #toolbartable .paginator, .change-list #changelist .results+.paginator {
+	position: static !important;
+}
+
+.change-list #changelist.filtered #toolbartable .paginator, .change-list #changelist.filtered .results+.paginator {
+	position: static !important;
+	width: calc(100% - 30px) !important
+}
+
+.change-list #changelist table tbody .drag {
+	max-width: 100%;
+	margin: 0 21px 0 0;
+}
+
+form fieldset {
+    width: 100%;
+}
+
+.aligned label + p, .aligned label + div.help, .aligned label + div.readonly {
+	margin-left: 230px;
+}

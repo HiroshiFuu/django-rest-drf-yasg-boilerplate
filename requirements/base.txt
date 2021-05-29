@@ -1,0 +1,67 @@
+# Bleeding edge Django
+Django==3.1.10
+
+# ======== Django Debug ==========
+django-cors-headers
+django-debug-toolbar
+
+# Django-Extensions
+django-extensions
+Werkzeug
+pyOpenSSL
+
+# Configuration
+django-environ
+
+# Forms
+django-crispy-forms
+
+# Models
+django-model-utils
+
+# For user registration, either via email or social
+# Well-built with regular release cycles!
+django-allauth
+
+# Time zones support
+pytz
+
+# Password storage
+argon2-cffi
+
+# RESTful
+djangorestframework
+django-rest-swagger
+drf_yasg
+
+# DB connection
+# pre-requisite: sudo apt-get install python3-dev
+# mysqlclient
+# psycopg2-binary
+
+# JSON
+django-validated-jsonfield
+django-json-widget
+
+# Phone Number field
+django-phonenumber-field[phonenumbers]
+
+# HTML Content
+Pillow
+django-tinymce
+
+# Django CMS Admin Style
+djangocms-admin-style
+
+# Django admin 3rd party tools
+django-import-export
+django_admin_row_actions
+django-inline-actions
+django-admin-sortable2
+
+# Generate random Data
+#essential-generators
+random-timestamp
+
+# My awesome package
+django-onetimelink
