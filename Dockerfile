@@ -8,7 +8,7 @@ RUN apt-get update
 RUN apt-get install nano
 ARG CACHEBUST
 COPY . /app/
-RUN python3 manage.py collectstatic
+RUN python3 manage.py collectstatic --noinput
 RUN python3 manage.py makemigrations
 RUN python3 manage.py migrate
 RUN python3 manage.py init_admin
