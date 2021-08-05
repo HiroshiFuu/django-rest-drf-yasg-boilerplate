@@ -60,12 +60,11 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     # Your stuff: custom apps go here
     'core',
-    'backend.apps.BackendConfig',
+    'backend',
 ]
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
-INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + \
-    LOCAL_APPS  # to solve dependency issue
+INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 
 # MIDDLEWARE CONFIGURATION
@@ -295,7 +294,7 @@ ACCOUNT_EMAIL_VERIFICATION = 'none'
 ACCOUNT_ALLOW_REGISTRATION = True
 ACCOUNT_UNIQUE_EMAIL = False  # do not asking for unique email address
 LOGIN_URL = 'account_login'
-LOGIN_REDIRECT_URL = '/'
+# LOGIN_REDIRECT_URL = '/'
 ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 3
 
 
