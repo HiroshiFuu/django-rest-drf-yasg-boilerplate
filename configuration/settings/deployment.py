@@ -2,7 +2,6 @@
 Deployment settings
 """
 from .base import *  # noqa
-import os
 
 
 # DEBUG
