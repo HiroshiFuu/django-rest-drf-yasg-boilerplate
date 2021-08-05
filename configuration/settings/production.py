@@ -2,7 +2,6 @@
 Production settings
 """
 from .base import *  # noqa
-import os
 
 
 # DEBUG
@@ -34,6 +33,13 @@ MEDIA_URL = FORCE_SCRIPT_NAME + '/media/'
 
 DYNAMIC_LINK_URL_BASE_COMPONENT = 'OneTimeLink'
 DYNAMIC_LINK_SCHEMA_PROTO = 'https'
+
+SESSION_COOKIE_AGE = 60 * 10
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_SAVE_EVERY_REQUEST = True
+
+SCHEMA_VIEW_URL = 'https://hiroshifuu.xyz' + FORCE_SCRIPT_NAME
+
 
 # SECRET CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -118,6 +124,11 @@ LOGGING = {
             'when': 'midnight',
             'formatter': 'verbose'
         },
+        'mail_admins': {
+            'level': 'DEBUG',
+            'class': 'django.utils.log.AdminEmailHandler',
+            'include_html': True,
+        },
     },
     'loggers': {
         'django': {
@@ -127,6 +138,11 @@ LOGGING = {
         },
         'werkzeug': {
             'handlers': ['console', 'file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'django.request': {
+            'handlers': ['file', 'mail_admins'],
             'level': 'DEBUG',
             'propagate': True,
         },
