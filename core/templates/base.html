@@ -1,7 +1,7 @@
 {% load static i18n %}
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-100">
 <head>
 	{% block head %}
 		{% block meta %}
@@ -13,73 +13,54 @@
 		<link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.ico' %}"/>
 		{% endblock meta %}
 
-		<title>MyTemplate | {% block title %}{% endblock %}</title>
+		<title>My Template | {% block title %}{% endblock %}</title>
 
 		{% block stylesheets %}
 		<!-- Bootstrap -->
-		<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
 		<!-- Font Awesome -->
-		<link href="{% static 'css/fontawesome.min.css' %}" rel="stylesheet">
+		{% comment %} <link rel="stylesheet" href="{% static 'css/fontawesome.min.css' %}"> {% endcomment %}
 		{% endblock stylesheets %}
 
 		<!-- Custom Theme Style -->
-		<link href="{% static 'css/custom.css' %}" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/custom.css' %}">
 	{% endblock head %}
 
 	{% block page_css %}
 	{% endblock page_css %}
 
-	<!-- <base href="../"> -->
+	{% comment %} <base href="/"> {% endcomment %}
 </head>
 
-<body>
-	<!-- Static navbar -->
-	<nav class="navbar navbar-default navbar-static-top navbar-dark bg-dark">
-		<div class="container">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar" role="navigation" style="margin-right: 1rem">
-					<span class="sr-only">Toggle navigation</span>
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<a class="navbar-brand" href="#">MyTemplate</a>
-				<a class="navbar-brand" href="#">{LOGO}</a>
+<body class="" style="height: max-content; min-height: 100%;">
+	<header class="p-3 bg-dark text-white">
+		<div class="container d-flex w-100 h-100 p-1 mx-auto">
+			<a href="/" class="ms-3 mt-1 text-white text-decoration-none">
+				<img class="bi ms-2" src="{% static '' %}" alt="{LOGO}" width="123">
+			</a>
+			<h3 class="mb-0 me-5">My Template</h3>
+			<nav class="nav nav-masthead ms-5 justify-content-center">
+				<a href="/" class="nav-link px-2 text-white">Home</a>
+			</nav>
+			<div class="ms-auto">
+				<a class="btn btn-success mx-1" href="{% url 'admin:index' %}" target="_blank">{% trans "Admin" %}</a>
+				<a class="btn btn-warning mx-1" href="{% url 'account_logout' %}">{% trans "Sign Out" %}</a>
 			</div>
-			<div id="navbar" class="navbar-collapse collapse">
-				<ul class="nav navbar-nav">
-					<li class="nav-item active">
-						<a class="nav-link" href="#">Home<span class="sr-only">(current)</span></a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="{% url 'admin:index' %}" target="_blank">Admin</a>
-					</li>
-					{% if request.user.is_authenticated %}
-					<li class="nav-item">
-						{# URL provided by django-allauth/account/urls.py #}
-						<a class="nav-link" href="{% url 'account_logout' %}">{% trans "Sign Out" %}</a>
-					</li>
-					{% else %}
-					<li class="nav-item">
-						{# URL provided by django-allauth/account/urls.py #}
-						{# <a id="log-in-link" class="nav-link" href="{% url 'account_login' %}">{% trans "Sign In" %}</a> #}
-					</li>
-					{% endif %}
-				</ul>
-			</div><!--/.nav-collapse -->
 		</div>
-	</nav>
+	</header>
 
 	{% block body %}
-	<div class="container">
+	<main class="p-5 container d-flex w-100 mx-auto flex-column">
 		{% block content %}
 		<!-- {{ content }} -->
 		{% endblock content %}
-	</div> <!-- /container -->
+	</main>
 
 	{% block javascripts %}
 	<!-- jQuery -->
-	<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
 	<!-- Bootstrap -->
-	<script src="{% static 'js/bootstrap.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 	{% endblock %}
 
 	<script type="text/javascript">
@@ -113,6 +94,12 @@
 					xhr.setRequestHeader("X-CSRFToken", csrftoken);
 				}
 			}
+		});
+
+		const currentLocation = location.href;
+		$(".nav-link").each(function(i, element) {
+			if (element.href === currentLocation)
+				element.className = "nav-link active";
 		});
 	</script>
 
