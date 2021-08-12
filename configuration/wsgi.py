@@ -34,7 +34,5 @@ application = get_wsgi_application()
 if os.environ.get('DJANGO_SETTINGS_MODULE') == 'configuration.settings.production':
     from raven.contrib.django.raven_compat.middleware.wsgi import Sentry
     from whitenoise import WhiteNoise
-    application = WhiteNoise(application, root='/home/user/STATIC_ROOT/static')
-
-if os.environ.get('DJANGO_SETTINGS_MODULE') == 'configuration.settings.production':
+    application = WhiteNoise(application, root='/app/STATIC_ROOT/static')
     application = Sentry(application)
