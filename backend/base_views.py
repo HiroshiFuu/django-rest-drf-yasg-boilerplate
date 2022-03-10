@@ -19,16 +19,14 @@ from .decorators import check_allowed_versions, check_token_auth, restrict_admin
 
 from .constants import RESPONSE_400_DATA
 from .constants import RESPONSE_401_DATA
+from .constants import RESPONSE_403_DATA
 from .constants import RESPONSE_404_DATA
 from .constants import RESPONSE_404_VERSION
 from .constants import RESPONSE_404_ENDPOINT
 from .constants import RESPONSE_500_DATA
 from .constants import ALLOWED_VERSIONS
 
-from .serializers import AuthUserSerializer
-from .serializers import AuthTokenExampleSerializer
-from .serializers import RoleSerializer
-from .serializers import UserSerializer
+from .serializers import *
 
 from core.models import Role
 
@@ -61,6 +59,31 @@ class CustomObtainAuthTokenView(APIView):
             res_data = copy.deepcopy(RESPONSE_500_DATA)
             res_data['message'] = traceback.format_exc()
             return Response(data=res_data, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+class RegistrationView(APIView):
+
+    @authentication_classes([TokenAuthentication])
+    @swagger_auto_schema(operation_description='Create an user', request_body=AccountSerializer, responses={200: openapi.Response('', AccountSerializer)}, tags=['Account'])
+    @check_allowed_versions(version=None)
+    @check_token_auth()
+    def post(self, request):
+        user = User.objects.get(id=Token.objects.get(key=request.auth).user_id)
+        if not user or not user.is_staff:
+            res_data = copy.deepcopy(RESPONSE_403_DATA)
+            res_data['message'] = 'Only admins are allowed to create users'
+            return Response(data=res_data, status=status.HTTP_403_FORBIDDEN)
+        serializer = AccountSerializer(data=request.data)
+        if serializer.is_valid():
+            user = User.objects.create(
+                username=serializer.data.get('username'),
+                email=serializer.data.get('email'),
+                first_name=serializer.data.get('first_name'),
+                last_name=serializer.data.get('last_name')
+            )
+            user.set_password(serializer.data.get('password'))
+            user.save()
+            return Response(data=serializer.data, status=status.HTTP_200_OK)
+        return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ListRoleView(APIView):

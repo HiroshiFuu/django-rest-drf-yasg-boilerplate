@@ -53,3 +53,14 @@ class UserSerializer(serializers.ModelSerializer):
             'role': 'Role',
             'timezone': 'Timezone',
         }
+
+
+class AccountSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name', 'email', 'username', 'password')
+        extra_kwargs = {
+            'username': {'required': True},
+            'password': {'required': True},
+        }

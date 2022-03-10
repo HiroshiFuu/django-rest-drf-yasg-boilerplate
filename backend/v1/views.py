@@ -148,16 +148,3 @@ class CalculateShapeAreaPerimeterView(APIView):
             res_data = copy.deepcopy(RESPONSE_400_DATA)
             res_data['message'] = 'Shape not found.'
             return Response(data=res_data, status=status.HTTP_400_BAD_REQUEST)
-
-
-# Token 9ac22bd1b3a5bc48032fe3f4ddda5a933c432c94
-test_data = {
-  "shape_type": "triangle",
-  "width": 2,
-  "height": 3
-}
-test_data = {
-  "shape_id": 3,
-  "width": 3,
-  "height": 4
-}
