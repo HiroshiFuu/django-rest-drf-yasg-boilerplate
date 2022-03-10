@@ -13,9 +13,7 @@ class UpperLowerNumericPasswordValidator(object):
     """
 
     def validate(self, password, user=None):
-        if not re.search(r'\d', password) or \
-            not re.search(r'[a-z]', password) or \
-            not re.search(r'[A-Z]', password):
+        if not re.search(r'\d', password) or not re.search(r'[a-z]', password) or not re.search(r'[A-Z]', password):
             raise ValidationError(
                 _("Password must contains Uppercase letters, Lowercase letters and numbers."),
                 code='must-contains-uppercase-letters-lowercase-letters-and-numbers',

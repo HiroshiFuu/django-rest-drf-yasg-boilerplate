@@ -28,7 +28,6 @@ class ListShapeByTypeView(APIView):
             return Response(data=res_data, status=status.HTTP_400_BAD_REQUEST)
 
 
-
 class ReadDeleteShapeView(APIView):
 
     @authentication_classes([TokenAuthentication])
@@ -126,6 +125,25 @@ class PostUpdateShapeView(APIView):
             res_data = copy.deepcopy(RESPONSE_400_DATA)
             res_data['message'] = 'Data inputed is NOT correct.'
             return Response(data=res_data, status=status.HTTP_400_BAD_REQUEST)
+        except ObjectDoesNotExist:
+            res_data = copy.deepcopy(RESPONSE_400_DATA)
+            res_data['message'] = 'Shape not found.'
+            return Response(data=res_data, status=status.HTTP_400_BAD_REQUEST)
+
+
+class CalculateShapeAreaPerimeterView(APIView):
+
+    @authentication_classes([TokenAuthentication])
+    @swagger_auto_schema(operation_description='Shape calculations by ID', responses={200: openapi.Response('')}, tags=['Shape'])
+    @check_allowed_versions(version=CUR_VERSION)
+    @check_token_auth()
+    def get(self, request, shape_id=None):
+        try:
+            shape_instance = Shape.objects.get(id=shape_id)
+            shape_model = get_model_from_shape_type(shape_instance.shape_type)
+            instance = shape_model.objects.get(id=shape_id)
+            serializer = ShapeAreaPerimeterSerializer(instance)
+            return Response(data=serializer.data, status=status.HTTP_200_OK)
         except ObjectDoesNotExist:
             res_data = copy.deepcopy(RESPONSE_400_DATA)
             res_data['message'] = 'Shape not found.'

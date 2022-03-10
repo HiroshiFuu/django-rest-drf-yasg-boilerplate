@@ -54,3 +54,8 @@ class ShapeTypeSerializer(BaseShapeSerializer):
 
 class ShapeIDSerializer(BaseShapeSerializer):
     shape_id = serializers.IntegerField(label='Shape ID')
+
+
+class ShapeAreaPerimeterSerializer(BaseShapeSerializer):
+    area = serializers.FloatField()
+    perimeter = serializers.FloatField()

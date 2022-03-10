@@ -14,7 +14,7 @@ from .timezones import DEFAULT_TIMEZONE, TIMEZONE_CHOICES
 class AuditMixin(models.Model):
 
     class Meta:
-        abstract=True
+        abstract = True
 
     created_at = models.DateTimeField(editable=False, auto_now_add=True, verbose_name='Created At')
     modified_at = models.DateTimeField(blank=True, null=True, verbose_name='Modified At')
@@ -47,7 +47,7 @@ class Role(AuditMixin):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.PROTECT)
     role = models.ForeignKey(Role, on_delete=models.PROTECT, related_name='profiles')
-    phone_number = PhoneNumberField('Phone Number',null=True, blank=True)
+    phone_number = PhoneNumberField('Phone Number', null=True, blank=True)
     timezone = models.CharField('Timezone', max_length=63, choices=TIMEZONE_CHOICES, default=DEFAULT_TIMEZONE)
 
     @property
