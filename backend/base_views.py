@@ -36,15 +36,6 @@ import copy
 import os
 
 
-@conditional_decorator(csrf_exempt, lambda settings: settings['DJANGO_SETTINGS_MODULE'] == 'configuration.settings.develop', os.environ)
-def demo(request):
-    if request.user.is_authenticated:
-        verions = settings.REST_FRAMEWORK['ALLOWED_VERSIONS']
-        return render(request, 'home.html', {'verions': verions})
-    else:
-        return HttpResponseRedirect(reverse('account_login'))
-
-
 class CustomObtainAuthTokenView(APIView):
 
     @swagger_auto_schema(operation_description='User log in with username and password', request_body=AuthTokenExampleSerializer, security=[], responses={200: openapi.Response('', AuthUserSerializer)}, tags=['Authentication'])

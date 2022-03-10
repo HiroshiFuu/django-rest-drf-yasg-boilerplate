@@ -294,7 +294,7 @@ ACCOUNT_EMAIL_VERIFICATION = 'none'
 ACCOUNT_ALLOW_REGISTRATION = True
 ACCOUNT_UNIQUE_EMAIL = False  # do not asking for unique email address
 LOGIN_URL = 'account_login'
-# LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/'
 ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 3
 
 
