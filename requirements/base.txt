@@ -1,43 +1,45 @@
 # Bleeding edge Django
-Django>=3.1,<3.2
+Django>=4.1,<4.2
 
 # ======== Django Debug ==========
-django-cors-headers
 django-debug-toolbar
+django-cors-headers
 
 # Django-Extensions
 django-extensions
-Werkzeug
+Werkzeug==2.0.0
 pyOpenSSL
 
-# Configuration
-django-environ
+# Django Auth
+argon2-cffi
+django-allauth
 
 # Forms
 django-crispy-forms
+crispy-bootstrap4
 
-# Models
-django-model-utils
-
-# For user registration, either via email or social
-# Well-built with regular release cycles!
-django-allauth
-
-# Time zones support
-pytz
-
-# Password storage
-argon2-cffi
+# PostgreSQL adapter
+# psycopg
+psycopg2-binary
 
 # RESTful
 djangorestframework
 django-rest-swagger
-drf_yasg
+drf-yasg[validation]
 
-# DB connection
-# pre-requisite: sudo apt-get install python3-dev
-#mysqlclient
-psycopg2-binary
+# Configuration
+django-environ
+django-easysettings
+
+# Django CMS Admin Style
+djangocms-admin-style
+
+# Django admin 3rd party tools
+django-import-export
+django-object-actions
+django-admin-sortable2
+django-sortedm2m
+django4-inline-actions
 
 # JSON
 django-validated-jsonfield
@@ -50,24 +52,30 @@ django-phonenumber-field[phonenumbers]
 Pillow
 django-tinymce
 
-# Django CMS Admin Style
-djangocms-admin-style
+# Web app to serve its own static files
+whitenoise
 
-# Django admin 3rd party tools
-django-import-export
-django-object-actions
-django-inline-actions
-django-admin-sortable2
+# Sentry SDK
+sentry-sdk
 
-# Generate random Data
-#essential-generators
-random-timestamp
+# Django’s native asynchronous view support
+channels
+
+# Time zones support
+pytz
+
+# Memcached client
+pymemcache
+
+# Thumbnail
+easy-thumbnails
+
+# Retrieve client's IP address
+django-ipware
+ipaddress
+
+# Auto-detect user's timezone
+django-tz-detect
 
 # My awesome package
 django-onetimelink
-
-# Python client for Sentry
-raven
-
-# Web app to serve its own static files
-whitenoise
