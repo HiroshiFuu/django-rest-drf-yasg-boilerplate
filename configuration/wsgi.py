@@ -1,5 +1,5 @@
 """
-WSGI configurations
+WSGI configuration.
 
 This module contains the WSGI application used by Django's development server
 and any production WSGI deployments. It should expose a module-level variable
@@ -31,8 +31,6 @@ application = get_wsgi_application()
 # We defer to a DJANGO_SETTINGS_MODULE already in the environment. This breaks
 # if running multiple sites in the same mod_wsgi process. To fix this, use
 # mod_wsgi daemon mode with each site in its own daemon process, or use
-if os.environ.get('DJANGO_SETTINGS_MODULE') == 'configuration.settings.production':
-    from raven.contrib.django.raven_compat.middleware.wsgi import Sentry
+if 'production' in os.environ.get('DJANGO_SETTINGS_MODULE'):
     from whitenoise import WhiteNoise
-    application = WhiteNoise(application, root='/app/STATIC_ROOT/static')
-    application = Sentry(application)
+    application = WhiteNoise(application, root='/app/static')
