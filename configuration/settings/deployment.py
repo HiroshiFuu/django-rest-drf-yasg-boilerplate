@@ -34,66 +34,19 @@ MEDIA_URL = FORCE_SCRIPT_NAME + '/media/'
 DYNAMIC_LINK_URL_BASE_COMPONENT = 'OneTimeLink'
 DYNAMIC_LINK_SCHEMA_PROTO = 'https'
 
+
+# env-apps
+# ------------------------------------------------------------------------------
+INSTALLED_APPS += [
+
+]
+
+
 # SECRET CONFIGURATION
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
 # Note: This key only used for development and testing.
 SECRET_KEY = ''
-
-
-# Mail settings
-# ------------------------------------------------------------------------------
-EMAIL_HOST = os.environ.get('STMP_HOST')
-EMAIL_HOST_USER = os.environ.get('STMP_USERNAME')
-EMAIL_HOST_PASSWORD = os.environ.get('STMP_PASSWORD')
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-
-
-# CACHING
-# ------------------------------------------------------------------------------
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-        'LOCATION': ''
-    }
-}
-
-
-# env-apps
-# ------------------------------------------------------------------------------
-INSTALLED_APPS += [
-    'debug_toolbar',
-    'corsheaders',
-]
-
-
-# django-debug-toolbar
-# ------------------------------------------------------------------------------
-MIDDLEWARE += [
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
-]
-
-DEBUG_TOOLBAR_CONFIG = {
-    'DISABLE_PANELS': [
-        'debug_toolbar.panels.redirects.RedirectsPanel',
-    ],
-    'SHOW_TEMPLATE_CONTEXT': True,
-}
-
-
-# django-corsheaders
-# ------------------------------------------------------------------------------
-MIDDLEWARE += [
-    'corsheaders.middleware.CorsMiddleware',
-]
-
-CORS_ORIGIN_ALLOW_ALL = True
-
-from corsheaders.defaults import default_headers  # noqa
-CORS_ALLOW_HEADERS = list(default_headers) + [
-    'content-disposition'
-]
 
 
 # DATABASE CONFIGURATION

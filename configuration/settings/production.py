@@ -41,37 +41,18 @@ SESSION_SAVE_EVERY_REQUEST = True
 SCHEMA_VIEW_URL = 'https://hiroshifuu.xyz' + FORCE_SCRIPT_NAME
 
 
-# SECRET CONFIGURATION
-# ------------------------------------------------------------------------------
-# See: https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
-# Note: This key only used for development and testing.
-SECRET_KEY = ''
-
-
-# Mail settings
-# ------------------------------------------------------------------------------
-EMAIL_HOST = os.environ.get('STMP_HOST')
-EMAIL_HOST_USER = os.environ.get('STMP_USERNAME')
-EMAIL_HOST_PASSWORD = os.environ.get('STMP_PASSWORD')
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-
-
-# CACHING
-# ------------------------------------------------------------------------------
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-        'LOCATION': ''
-    }
-}
-
-
 # env-apps
 # ------------------------------------------------------------------------------
 INSTALLED_APPS += [
 
 ]
+
+
+# SECRET CONFIGURATION
+# ------------------------------------------------------------------------------
+# See: https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
+# Note: This key only used for development and testing.
+SECRET_KEY = ''
 
 
 # DATABASE CONFIGURATION

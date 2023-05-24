@@ -20,37 +20,10 @@ ALLOWED_HOSTS = ['*']
 INTERNAL_IPS = ['127.0.0.1']
 
 
-# SECRET CONFIGURATION
-# ------------------------------------------------------------------------------
-# See: https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
-# Note: This key only used for development and testing.
-SECRET_KEY = '_zbw*zp4w^l7%eidp%t#@y(5&0$f9p4ejmy+@^bsg72e7w5!i!'
-
-
-# Mail settings
-# ------------------------------------------------------------------------------
-EMAIL_HOST = ''
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-
-
-# CACHING
-# ------------------------------------------------------------------------------
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-        'LOCATION': ''
-    }
-}
-
-
 # env-apps
 # ------------------------------------------------------------------------------
 INSTALLED_APPS += [
     'debug_toolbar',
-    'corsheaders',
 ]
 
 
@@ -68,19 +41,18 @@ DEBUG_TOOLBAR_CONFIG = {
 }
 
 
-# django-corsheaders
+# SECRET CONFIGURATION
 # ------------------------------------------------------------------------------
-MIDDLEWARE += [
-    'corsheaders.middleware.CorsMiddleware',
-]
+# See: https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
+# Note: This key only used for development and testing.
+SECRET_KEY = 'crkc9qd#3okx+w+x$0dbtj7-4ktqj8g-3xju^&xr&&4*5tk#6z'
 
-CORS_ORIGIN_ALLOW_ALL = True
 
 # DATABASES
 # ------------------------------------------------------------------------------
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(str(ROOT_DIR), 'db.sqlite3'),
+        'NAME': os.path.join(str(BASE_DIR), 'db.sqlite3'),
     }
 }

@@ -2,27 +2,47 @@
 Base settings
 
 For more information on this file, see
-https://docs.djangoproject.com/en/dev/topics/settings/
+https://docs.djangoproject.com/en/4.1/topics/settings/
 
 For the full list of settings and their values, see
-https://docs.djangoproject.com/en/dev/ref/settings/
+https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-import os
 import environ
+import os
+
+
+# ENVIRONMENT
+# ------------------------------------------------------------------------------
+# Project/configuration/settings/base.py - 3 = Project/
+BASE_DIR = environ.Path(__file__) - 3
+PARENT_DIR = BASE_DIR - 1
+CORE_DIR = BASE_DIR.path('core')
+
+environ.Env.read_env(BASE_DIR('.env'))  # reading .env file
+env = environ.Env()
+
+SENTRY_DSN = os.environ.get('SENTRY_DSN', False)
+SENTRY_RELEASE = os.environ.get('SENTRY_RELEASE', False)
+
+VERSION = os.environ.get('VERSION', '0.0.0')
+SWAGGER_VALIDATOR_URL = os.environ.get('SWAGGER_VALIDATOR_URL', None)
+IPINFO_TOKEN = os.environ.get('IPINFO_TOKEN', None)
 
 
 # SECRET CONFIGURATION
 # ------------------------------------------------------------------------------
-# See: https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
+# See: https://docs.djangoproject.com/en/4.1/ref/settings/#secret-key
 # Note: This key only used for development and testing.
 SECRET_KEY = 'j8(@n0e203&h0d(v=mix+9o#m#q^4p^s2ro70+88^gynbq%1mv'
 
 
-# (Project/configuration/settings/base.py - 3 = Project/)
-ROOT_DIR = environ.Path(__file__) - 3
-PARENT_DIR = ROOT_DIR - 1
-CORE_DIR = ROOT_DIR.path('core')
-environ.Env.read_env(ROOT_DIR('.env'))  # reading .env file
+# SITE CONFIGURATION
+# ------------------------------------------------------------------------------
+SITE_ID = 1
+
+FILE_UPLOAD_PERMISSIONS = 0o644
+
+RUNSERVERPLUS_SERVER_ADDRESS_PORT = '0.0.0.0:8080'
 
 
 # APP CONFIGURATION
@@ -44,27 +64,73 @@ THIRD_PARTY_APPS = [
     'crispy_forms',  # Form layouts
     'allauth',  # registration
     'allauth.account',
-    'allauth.socialaccount',
     'rest_framework',
     'rest_framework.authtoken',
     'rest_framework_swagger',
-    'phonenumber_field',
     'drf_yasg',
-    'inline_actions',
     'django_extensions',
-    'adminsortable2',
-    'onetimelink',
+    'inline_actions',
+    'tinymce',
+    'import_export',
+    'corsheaders',
 ]
 
 # Apps specific for this project go here.
 LOCAL_APPS = [
     # Your stuff: custom apps go here
-    'core',
-    'backend',
+    'core.apps.CoreConfig',
+    'backend.apps.BackendConfig',
 ]
 
-# See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
+# See: https://docs.djangoproject.com/en/4.1/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
+
+
+# CACHING
+# ------------------------------------------------------------------------------
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': ''
+    }
+}
+
+
+# DEBUG
+# ------------------------------------------------------------------------------
+# See: https://docs.djangoproject.com/en/4.1/ref/settings/#debug
+DEBUG = False
+
+
+# DATABASE CONFIGURATION
+# ------------------------------------------------------------------------------
+# See: https://docs.djangoproject.com/en/4.1/ref/settings/#databases
+# Uses django-environ to accept uri format
+# See: https://django-environ.readthedocs.io/en/latest/#supported-types
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': env('DATABASE_NAME'),
+        'USER': env('DATABASE_USER'),
+        'PASSWORD': env('DATABASE_PASSWORD'),
+        'HOST': env('DATABASE_HOST'),
+        'PORT': env('DATABASE_PORT'),
+    }
+}
+
+DATABASES['default']['ATOMIC_REQUESTS'] = True
+
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
+
+# EMAIL CONFIGURATION
+# ------------------------------------------------------------------------------
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 
 
 # MIDDLEWARE CONFIGURATION
@@ -85,65 +151,84 @@ MIDDLEWARE = [
 # MIGRATIONS CONFIGURATION
 # ------------------------------------------------------------------------------
 MIGRATION_MODULES = {
-    'sites': 'core.contrib.sites.migrations'
+    'sites': 'django.contrib.sites.migrations'
 }
 
 
-# DEBUG
+# URL CONFIGURATION
 # ------------------------------------------------------------------------------
-# See: https://docs.djangoproject.com/en/dev/ref/settings/#debug
-DEBUG = False
-
-
-# MANAGER CONFIGURATION
-# ------------------------------------------------------------------------------
-# See: https://docs.djangoproject.com/en/dev/ref/settings/#admins
-ADMINS = [
-    ("FENG Hao", 'hiroshifuu@outlook.com'),
-]
+ROOT_URLCONF = 'configuration.urls'
 
 # Location of root django.contrib.admin URL, use {% url 'admin:index' %}
 ADMIN_URL = r'^admin/'
 
-# See: https://docs.djangoproject.com/en/dev/ref/settings/#managers
-MANAGERS = ADMINS
+# See: https://docs.djangoproject.com/en/4.1/ref/settings/#wsgi-application
+WSGI_APPLICATION = 'configuration.wsgi.application'
 
 
-# DATABASE CONFIGURATION
+# STATIC FILE CONFIGURATION
 # ------------------------------------------------------------------------------
-# See: https://docs.djangoproject.com/en/dev/ref/settings/#databases
-# Uses django-environ to accept uri format
-# See: https://django-environ.readthedocs.io/en/latest/#supported-types
-DATABASES = {
-    'default': {
-        'ENGINE': '',
-    }
-}
-DATABASES['default']['ATOMIC_REQUESTS'] = True
+# See: https://docs.djangoproject.com/en/4.1/ref/settings/#static-root
+STATIC_ROOT = str(PARENT_DIR('STATIC_ROOT'))
+
+# See: https://docs.djangoproject.com/en/4.1/ref/settings/#static-url
+STATIC_URL = '/static/'
+
+# See: https://docs.djangoproject.com/en/4.1/ref/contrib/staticfiles/#std:setting-STATICFILES_DIRS
+STATICFILES_DIRS = [
+    str(BASE_DIR.path('core', 'static')),
+    str(BASE_DIR.path('backend', 'static')),
+]
+
+# See: https://docs.djangoproject.com/en/4.1/ref/contrib/staticfiles/#staticfiles-finders
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+]
+
+
+# MEDIA CONFIGURATION
+# ------------------------------------------------------------------------------
+# See: https://docs.djangoproject.com/en/4.1/ref/settings/#media-root
+MEDIA_ROOT = str(CORE_DIR('media'))
+
+# See: https://docs.djangoproject.com/en/4.1/ref/settings/#media-url
+MEDIA_URL = '/media/'
+
+
+# MANAGER CONFIGURATION
+# ------------------------------------------------------------------------------
+# See: https://docs.djangoproject.com/en/4.1/ref/settings/#admins
+ADMINS = [
+    ("FENG Hao", 'hiroshifuu@outlook.com'),
+]
+
+# See: https://docs.djangoproject.com/en/4.1/ref/settings/#managers
+MANAGERS = ADMINS
 
 
 # TEMPLATE CONFIGURATION
 # ------------------------------------------------------------------------------
-# See: https://docs.djangoproject.com/en/dev/ref/settings/#templates
+# See: https://docs.djangoproject.com/en/4.1/ref/settings/#templates
 TEMPLATES = [
     {
-        # See: https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-TEMPLATES-BACKEND
+        # See: https://docs.djangoproject.com/en/4.1/ref/settings/#std:setting-TEMPLATES-BACKEND
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-dirs
+        # See: https://docs.djangoproject.com/en/4.1/ref/settings/#template-dirs
         'DIRS': [
             str(CORE_DIR.path('templates')),
-            # str(ROOT_DIR.path('apps').path('admin_portal').path('templates')),
+            # str(BASE_DIR.path('apps').path('admin_portal').path('templates')),
         ],
         'OPTIONS': {
-            # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-debug
+            # See: https://docs.djangoproject.com/en/4.1/ref/settings/#template-debug
             'debug': DEBUG,
-            # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-loaders
-            # https://docs.djangoproject.com/en/dev/ref/templates/api/#loader-types
+            # See: https://docs.djangoproject.com/en/4.1/ref/settings/#template-loaders
+            # https://docs.djangoproject.com/en/4.1/ref/templates/api/#loader-types
             'loaders': [
                 'django.template.loaders.filesystem.Loader',
                 'django.template.loaders.app_directories.Loader',
             ],
-            # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-context-processors
+            # See: https://docs.djangoproject.com/en/4.1/ref/settings/#template-context-processors
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
@@ -163,7 +248,7 @@ TEMPLATES = [
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 
-# LOGGING CONFIGURATION
+# LOGGING
 # ------------------------------------------------------------------------------
 LOGGING = {
     'version': 1,
@@ -197,63 +282,67 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': True,
         },
+        'django.db.backends': {
+            'handlers': ['console'],
+            'level': 'WARNING',
+            'propagate': False,
+        },
     },
 }
 
 
-# STATIC FILE CONFIGURATION
+# LANGUAGE CONFIGURATION
 # ------------------------------------------------------------------------------
-# See: https://docs.djangoproject.com/en/dev/ref/settings/#static-root
-STATIC_ROOT = str(PARENT_DIR('STATIC_ROOT', 'static'))
+# If you set to False, Django will make some optimizations so as not
+# to load the internationalization machinery.
 
-# See: https://docs.djangoproject.com/en/dev/ref/settings/#static-url
-STATIC_URL = '/static/'
+# See: https://docs.djangoproject.com/en/4.1/ref/settings/#use-i18n
+USE_I18N = True
 
-# See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#std:setting-STATICFILES_DIRS
-STATICFILES_DIRS = [
-    str(ROOT_DIR.path('core', 'static')),
-    str(ROOT_DIR.path('backend', 'static')),
+# See: https://docs.djangoproject.com/en/4.1/ref/settings/#use-l10n
+USE_L10N = True
+
+# Language code for this installation. All choices can be found here:
+# http://www.i18nguy.com/unicode/language-identifiers.html
+# See: https://docs.djangoproject.com/en/4.1/ref/settings/#language-code
+LANGUAGE_CODE = 'en-us'
+
+# Languages we provide translations for, out of the box.
+LANGUAGES = [
+    ('en-us', 'English'),
+    ('zh-hans', 'Simplified Chinese'),
+    ('zh-hant', 'Traditional Chinese'),
 ]
 
-# See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#staticfiles-finders
-STATICFILES_FINDERS = [
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-]
 
-
-# MEDIA CONFIGURATION
+# TIMEZONE CONFIGURATION
 # ------------------------------------------------------------------------------
-# See: https://docs.djangoproject.com/en/dev/ref/settings/#media-root
-MEDIA_ROOT = str(CORE_DIR('media'))
+# Time zone support is disabled and uses pytz disabled by default.
+# See: https://docs.djangoproject.com/en/4.1/ref/settings/#use-tz
+USE_TZ = True
 
-# See: https://docs.djangoproject.com/en/dev/ref/settings/#media-url
-MEDIA_URL = '/media/'
-
-
-# URL Configuration
-# ------------------------------------------------------------------------------
-ROOT_URLCONF = 'configuration.urls'
-
-# See: https://docs.djangoproject.com/en/dev/ref/settings/#wsgi-application
-WSGI_APPLICATION = 'configuration.wsgi.application'
+# Local time zone for this installation. Choices can be found here:
+# https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+# although not all choices may be available on all operating systems.
+# In a Windows environment this must be set to your system time zone.
+TIME_ZONE = 'Asia/Singapore'
 
 
 # PASSWORD STORAGE SETTINGS
 # ------------------------------------------------------------------------------
-# See https://docs.djangoproject.com/en/dev/topics/auth/passwords/#using-argon2-with-django
+# See https://docs.djangoproject.com/en/4.1/topics/auth/passwords/#using-argon2-with-django
 PASSWORD_HASHERS = [
     'django.contrib.auth.hashers.Argon2PasswordHasher',
     'django.contrib.auth.hashers.PBKDF2PasswordHasher',
     'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
     'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
-    'django.contrib.auth.hashers.BCryptPasswordHasher',
+    'django.contrib.auth.hashers.ScryptPasswordHasher',
 ]
 
 
 # PASSWORD VALIDATION
+# https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 # ------------------------------------------------------------------------------
-# See https://docs.djangoproject.com/en/dev/ref/settings/#auth-password-validators
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -295,19 +384,10 @@ ACCOUNT_ALLOW_REGISTRATION = True
 ACCOUNT_UNIQUE_EMAIL = False  # do not asking for unique email address
 LOGIN_URL = 'account_login'
 LOGIN_REDIRECT_URL = '/'
-ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 3
-
-
-# GENERAL CONFIGURATION
-# ------------------------------------------------------------------------------
-# See: https://docs.djangoproject.com/en/dev/ref/settings/#site-id
-SITE_ID = 1
+ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5
 
 # SLUGLIFIER
 AUTOSLUG_SLUGIFY_FUNCTION = 'slugify.slugify'
-
-# Location of root django.contrib.admin URL, use {% url 'admin:index' %}
-ADMIN_URL = r'^admin/'
 
 
 # REST FRAMEWORK
@@ -333,9 +413,9 @@ REST_FRAMEWORK = {
 }
 
 
-# SWAGGER CONFIGURATION
+# SWAGGER
 # ------------------------------------------------------------------------------
-from django_validated_jsonfield.yasg import DEFAULT_FIELD_INSPECTORS  # noqa
+from django_validated_jsonfield.yasg import DEFAULT_FIELD_INSPECTORS    # isort:skip    # noqa: C0415
 SWAGGER_SETTINGS = {
     # 'DEFAULT_AUTO_SCHEMA_CLASS': 'core.yasg_auto_schema.NameAsOperationIDAutoSchema',
     'DEFAULT_AUTO_SCHEMA_CLASS': 'core.yasg_auto_schema.SwaggerExampleAutoSchema',
@@ -355,52 +435,29 @@ SWAGGER_SETTINGS = {
 }
 
 
-# EMAIL CONFIGURATION
-# ------------------------------------------------------------------------------
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = ''
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-
-
-# LANGUAGE CONFIGURATION
-# ------------------------------------------------------------------------------
-# If you set to False, Django will make some optimizations so as not
-# to load the internationalization machinery.
-
-# See: https://docs.djangoproject.com/en/dev/ref/settings/#use-i18n
-USE_I18N = True
-
-# See: https://docs.djangoproject.com/en/dev/ref/settings/#use-l10n
-USE_L10N = True
-
-# Language code for this installation. All choices can be found here:
-# http://www.i18nguy.com/unicode/language-identifiers.html
-# See: https://docs.djangoproject.com/en/dev/ref/settings/#language-code
-LANGUAGE_CODE = 'en-us'
-
-# Languages we provide translations for, out of the box.
-LANGUAGES = [
-    ('en-us', 'English'),
-    ('zh-hans', 'Simplified Chinese'),
-    ('zh-hant', 'Traditional Chinese'),
-]
-
-# TIMEZONE CONFIGURATION
-# ------------------------------------------------------------------------------
-# Time zone support is disabled and uses pytz disabled by default.
-# See: https://docs.djangoproject.com/en/dev/ref/settings/#use-tz
-USE_TZ = True
-
-# Local time zone for this installation. Choices can be found here:
-# https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-# although not all choices may be available on all operating systems.
-# In a Windows environment this must be set to your system time zone.
-TIME_ZONE = 'Etc/GMT0'
-
-
 # DJANGO JSON WIDGET CONFIGURATION
 JSON_EDITOR_JS = 'jsoneditor/jsoneditor.js'
 JSON_EDITOR_CSS = 'jsoneditor/jsoneditor.css'
+
+
+# DJANGO TINYMCE CONFIGURATION
+TINYMCE_DEFAULT_CONFIG = {
+    'plugins': 'print preview paste searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template charmap hr advlist lists wordcount imagetools textpattern help charmap emoticons',
+    'cleanup_on_startup': True,
+}
+
+
+# django-corsheaders
+# ------------------------------------------------------------------------------
+MIDDLEWARE.insert(2, 'corsheaders.middleware.CorsMiddleware')
+
+CORS_ALLOW_CREDENTIALS = True
+
+from corsheaders.defaults import default_headers    # noqa  # isort: skip
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    'content-disposition',
+    'origin',
+    'x-csrftoken',
+]
+
+CORS_EXPOSE_HEADERS = ['content-disposition']
