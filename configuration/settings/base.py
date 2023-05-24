@@ -29,7 +29,7 @@ environ.Env.read_env(ROOT_DIR('.env'))  # reading .env file
 # ------------------------------------------------------------------------------
 DJANGO_APPS = [
     # Default Django apps:
-    'djangocms_admin_style', # out-of-the-box admin style
+    'djangocms_admin_style',  # out-of-the-box admin style
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -335,7 +335,7 @@ REST_FRAMEWORK = {
 
 # SWAGGER CONFIGURATION
 # ------------------------------------------------------------------------------
-from django_validated_jsonfield.yasg import DEFAULT_FIELD_INSPECTORS
+from django_validated_jsonfield.yasg import DEFAULT_FIELD_INSPECTORS  # noqa
 SWAGGER_SETTINGS = {
     # 'DEFAULT_AUTO_SCHEMA_CLASS': 'core.yasg_auto_schema.NameAsOperationIDAutoSchema',
     'DEFAULT_AUTO_SCHEMA_CLASS': 'core.yasg_auto_schema.SwaggerExampleAutoSchema',

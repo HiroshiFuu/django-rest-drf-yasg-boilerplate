@@ -60,17 +60,17 @@ EMAIL_USE_TLS = True
 # CACHING
 # ------------------------------------------------------------------------------
 CACHES = {
-	'default': {
-		'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-		'LOCATION': ''
-	}
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': ''
+    }
 }
 
 
 # env-apps
 # ------------------------------------------------------------------------------
 INSTALLED_APPS += [
-    
+
 ]
 
 
@@ -101,7 +101,7 @@ LOGGING = {
     'formatters': {
         'verbose': {
             'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(lineno)d %(message)s',
-            'datefmt' : '%Y/%b/%d %H:%M:%S'
+            'datefmt': '%Y/%b/%d %H:%M:%S'
         },
         'simple': {
             'format': '%(levelname)s %(module)s %(lineno)d %(message)s'

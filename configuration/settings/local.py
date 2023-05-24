@@ -39,10 +39,10 @@ EMAIL_USE_TLS = True
 # CACHING
 # ------------------------------------------------------------------------------
 CACHES = {
-	'default': {
-		'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-		'LOCATION': ''
-	}
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': ''
+    }
 }
 
 
@@ -54,25 +54,24 @@ INSTALLED_APPS += [
 ]
 
 
-
 # django-debug-toolbar
 # ------------------------------------------------------------------------------
 MIDDLEWARE += [
-	'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 DEBUG_TOOLBAR_CONFIG = {
-	'DISABLE_PANELS': [
-		'debug_toolbar.panels.redirects.RedirectsPanel',
-	],
-	'SHOW_TEMPLATE_CONTEXT': True,
+    'DISABLE_PANELS': [
+        'debug_toolbar.panels.redirects.RedirectsPanel',
+    ],
+    'SHOW_TEMPLATE_CONTEXT': True,
 }
 
 
 # django-corsheaders
 # ------------------------------------------------------------------------------
 MIDDLEWARE += [
-	'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
