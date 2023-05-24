@@ -60,6 +60,7 @@ class CustomObtainAuthTokenView(APIView):
             res_data['message'] = traceback.format_exc()
             return Response(data=res_data, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+
 class RegistrationView(APIView):
 
     @authentication_classes([TokenAuthentication])

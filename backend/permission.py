@@ -10,5 +10,4 @@ class IsAuthorOrReadOnly(permissions.BasePermission):
         # SAFE_METHODS = ('GET', 'HEAD', 'OPTIONS')
         if request.method in permissions.SAFE_METHODS:
             return True
-
         return False

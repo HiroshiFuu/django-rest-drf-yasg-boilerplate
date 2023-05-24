@@ -42,7 +42,7 @@ class UserSerializer(serializers.ModelSerializer):
     timezone = serializers.CharField(source='profile.timezone')
 
     def get_full_name(self, obj):
-        return '{} {}'.format(obj.first_name, obj.last_name) 
+        return '{} {}'.format(obj.first_name, obj.last_name)
 
     class Meta:
         model = User

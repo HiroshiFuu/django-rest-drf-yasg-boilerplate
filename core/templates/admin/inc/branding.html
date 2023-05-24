@@ -1,7 +1,9 @@
-{% load admin_style_tags admin_custom_tags i18n %}
+{% load admin_style_tags custom_tags i18n %}
 {% load static from static %}
+
 <div id="header-logo">
-    <a class="icon-logo" href="/"><span>django CMS</span></a>
+    {% comment %} <a class="icon-logo" href="/"><span>django CMS</span></a> {% endcomment %}
+    <img alt="Company" class="fx-icon-logo" src="{% static 'img/company.svg' %}">
 </div>
 <h1>{{ site_header|default:_('Django Administration') }}</h1>
 <ul id="site-name" class="toolbar-item toolbar-item-navigation">
