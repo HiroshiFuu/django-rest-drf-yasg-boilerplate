@@ -28,8 +28,6 @@ A Django RESTfull Framework Boilerplate
 
 ## Extra Scripts
 
-* Linux service
 * Dockerfile and compose yaml
-* scripts to clean .pyc files
 * uwsgi files
 * Cython scripts
