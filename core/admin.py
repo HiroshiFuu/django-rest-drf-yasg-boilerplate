@@ -1,15 +1,15 @@
-from django.conf.locale.en import formats as en_formats
-en_formats.DATE_FORMAT = "Y-m-d"
 
-from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
-from django.contrib.auth.models import User
-from django.contrib.auth.models import Group
 from allauth.account.models import EmailAddress
+from django.contrib import admin
 from django.contrib.auth import get_user_model
-from django.utils.translation import ugettext_lazy as _
+from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.models import Group, User
+from django.utils.translation import gettext_lazy as _
 
-from .models import Role, Profile
+from .models import Profile, Role
+
+from django.conf.locale.en import formats as en_formats  # isort: skip
+en_formats.DATE_FORMAT = "Y-m-d"  # isort: skip
 
 admin.site.unregister(EmailAddress)
 admin.site.unregister(User)
