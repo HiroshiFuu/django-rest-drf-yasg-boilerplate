@@ -1,37 +1,27 @@
+from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-from django.contrib.auth.models import User
-from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 
-from rest_framework import status
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework.authtoken.models import Token
-from rest_framework.authentication import TokenAuthentication
-from rest_framework.decorators import authentication_classes
-
-from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
-
-from .decorators import check_allowed_versions, check_token_auth, restrict_admin, conditional_decorator
-
-from .constants import RESPONSE_400_DATA
-from .constants import RESPONSE_401_DATA
-from .constants import RESPONSE_403_DATA
-from .constants import RESPONSE_404_DATA
-from .constants import RESPONSE_404_VERSION
-from .constants import RESPONSE_404_ENDPOINT
-from .constants import RESPONSE_500_DATA
-from .constants import ALLOWED_VERSIONS
-
-from .serializers import *
+from drf_yasg.utils import swagger_auto_schema
+from rest_framework import status
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.authtoken.models import Token
+from rest_framework.decorators import authentication_classes
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from core.models import Role
 
+from .constants import ALLOWED_VERSIONS, RESPONSE_400_DATA, RESPONSE_401_DATA, RESPONSE_403_DATA, RESPONSE_404_DATA, RESPONSE_404_ENDPOINT, RESPONSE_404_VERSION, RESPONSE_500_DATA
+from .decorators import check_allowed_versions, check_token_auth, conditional_decorator, restrict_admin
+from .serializers import *
+
 import copy
 import os
+import traceback
 
 
 class CustomObtainAuthTokenView(APIView):
@@ -54,7 +44,6 @@ class CustomObtainAuthTokenView(APIView):
             else:
                 return Response(data=copy.deepcopy(RESPONSE_400_DATA), status=status.HTTP_400_BAD_REQUEST)
         except:
-            import traceback
             traceback.print_exc()
             res_data = copy.deepcopy(RESPONSE_500_DATA)
             res_data['message'] = traceback.format_exc()
@@ -68,14 +57,14 @@ class RegistrationView(APIView):
     @check_allowed_versions(version=None)
     @check_token_auth()
     def post(self, request):
-        user = User.objects.get(id=Token.objects.get(key=request.auth).user_id)
+        user = settings.AUTH_USER_MODEL.objects.get(id=Token.objects.get(key=request.auth).user_id)
         if not user or not user.is_staff:
             res_data = copy.deepcopy(RESPONSE_403_DATA)
             res_data['message'] = 'Only admins are allowed to create users'
             return Response(data=res_data, status=status.HTTP_403_FORBIDDEN)
         serializer = AccountSerializer(data=request.data)
         if serializer.is_valid():
-            user = User.objects.create(
+            user = settings.AUTH_USER_MODEL.objects.create(
                 username=serializer.data.get('username'),
                 email=serializer.data.get('email'),
                 first_name=serializer.data.get('first_name'),
@@ -106,7 +95,7 @@ class ListUserView(APIView):
     @check_allowed_versions(version=None)
     @check_token_auth()
     def get(self, request):
-        queryset = User.objects.filter(is_superuser=False)
+        queryset = settings.AUTH_USER_MODEL.objects.filter(is_superuser=False)
         serializer = UserSerializer(queryset, many=True)
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
@@ -119,6 +108,6 @@ class QueryUserView(APIView):
     @check_token_auth()
     def get(self, request):
         token = Token.objects.get(key=request.auth)
-        queryset = User.objects.get(id=token.user_id)
+        queryset = settings.AUTH_USER_MODEL.objects.get(id=token.user_id)
         serializer = UserSerializer(queryset)
         return Response(data=serializer.data, status=status.HTTP_200_OK)

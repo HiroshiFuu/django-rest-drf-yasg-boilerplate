@@ -1,11 +1,11 @@
-from django.contrib.auth.models import User
-
-from rest_framework import serializers
-from rest_framework.authtoken.serializers import AuthTokenSerializer
-from rest_framework.authtoken.models import Token
+from django.conf import settings
 
 from django_validated_jsonfield import ValidatedJsonModelSerializerMixin
-from core.models import Role, Profile
+from rest_framework import serializers
+from rest_framework.authtoken.models import Token
+from rest_framework.authtoken.serializers import AuthTokenSerializer
+
+from core.models import Profile, Role
 
 
 class AuthTokenExampleSerializer(AuthTokenSerializer):
@@ -45,7 +45,7 @@ class UserSerializer(serializers.ModelSerializer):
         return '{} {}'.format(obj.first_name, obj.last_name)
 
     class Meta:
-        model = User
+        model = settings.AUTH_USER_MODEL
         fields = ('id', 'full_name', 'email', 'role', 'timezone')
         examples = {
             'full_name': 'GivenName FamilyName',
@@ -58,7 +58,7 @@ class UserSerializer(serializers.ModelSerializer):
 class AccountSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = User
+        model = settings.AUTH_USER_MODEL
         fields = ('first_name', 'last_name', 'email', 'username', 'password')
         extra_kwargs = {
             'username': {'required': True},
