@@ -20,6 +20,62 @@ form fieldset {
 	margin-left: 230px;
 }
 
-#container {
-	overflow-x: hidden;
+.sticky.toggle-nav-sidebar {
+	padding: 6px 10px!important;
+}
+
+.fx-icon-logo {
+	margin-top: 5px;
+	margin-left: 10px;
+	height: 36px;
+}
+
+.delete-button {
+	border-radius: 3px !important;
+    color: #fff !important;
+	background-color: #FF033C !important;
+	appearance: none;
+	height: auto !important;
+}
+
+.delete-button:hover {
+    color: #fff !important;
+	background-color: #E60236 !important;
+	border-color: #E60236 !important;
+    text-decoration: none !important;
+}
+
+#content {
+	margin: 107px 3% 0 !important;
+}
+
+.dashboard #container #content-related {
+	height: calc(100% + 135px + 20px) !important;
+}
+
+#header .toolbar-item-navigation li ul.submenu-open {
+    display: block;
+    background-color: white;
+    padding-right: 10px;
+}
+
+#header .toolbar-item-navigation li ul li {
+	float: left;
+    padding-right: 10px;
+    width: 100%;
+}
+
+.truncate {
+	cursor: pointer;
+	word-break: break-all;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 40vw;
+}
+
+.truncate:hover {
+    overflow: visible; 
+    white-space: normal;
+    height: auto;
 }

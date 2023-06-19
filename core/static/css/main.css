@@ -1,122 +1,17 @@
-/* fonts */
-/* MetricHPE Thin */
-@font-face {
-  font-family: "MetricHPE";
-  src: url("../fonts/MetricHPE/MetricHPE-Web-Thin.eot");
-  src: url("../fonts/MetricHPE/MetricHPE-Web-Thin.eot?#iefix") format("embedded-opentype"), url("../fonts/MetricHPE/MetricHPE-Web-Thin.woff") format("woff");
-  font-weight: 100;
-  font-style: normal;
-}
-
-/* MetricHPE ThinItalic */
-@font-face {
-  font-family: "MetricHPE";
-  src: url("../fonts/MetricHPE/MetricHPE-Web-ThinItalic.eot");
-  src: url("../fonts/MetricHPE/MetricHPE-Web-ThinItalic.eot?#iefix") format("embedded-opentype"), url("../fonts/MetricHPE/MetricHPE-Web-ThinItalic.woff") format("woff");
-  font-weight: 100;
-  font-style: italic;
-}
-
-/* MetricHPE Regular */
-@font-face {
-  font-family: "MetricHPE";
-  src: url("../fonts/MetricHPE/MetricHPE-Web-Regular.eot");
-  src: url("../fonts/MetricHPE/MetricHPE-Web-Regular.eot?#iefix") format("embedded-opentype"), url("../fonts/MetricHPE/MetricHPE-Web-Regular.woff") format("woff");
-  font-weight: 400;
-  font-style: normal;
-}
-
-/* MetricHPE RegularItalic */
-@font-face {
-  font-family: "MetricHPE";
-  src: url("../fonts/MetricHPE/MetricHPE-Web-RegularItalic.eot");
-  src: url("../fonts/MetricHPE/MetricHPE-Web-RegularItalic.eot?#iefix") format("embedded-opentype"), url("../fonts/MetricHPE/MetricHPE-Web-RegularItalic.woff") format("woff");
-  font-weight: 400;
-  font-style: italic;
-}
-
-/* MetricHPE Medium */
-@font-face {
-  font-family: "MetricHPE";
-  src: url("../fonts/MetricHPE/MetricHPE-Web-Medium.eot");
-  src: url("../fonts/MetricHPE/MetricHPE-Web-Medium.eot?#iefix") format("embedded-opentype"), url("../fonts/MetricHPE/MetricHPE-Web-Medium.woff") format("woff");
-  font-weight: 700;
-  font-style: normal;
-}
-
-/* MetricHPE MediumItalic */
-@font-face {
-  font-family: "MetricHPE";
-  src: url("../fonts/MetricHPE/MetricHPE-Web-MediumItalic.eot");
-  src: url("../fonts/MetricHPE/MetricHPE-Web-MediumItalic.eot?#iefix") format("embedded-opentype"), url("../fonts/MetricHPE/MetricHPE-Web-MediumItalic.woff") format("woff");
-  font-weight: 700;
-  font-style: italic;
-}
-
-/* HPE Simple Light */
-@font-face {
-  font-family: "HPE Simple";
-  src: url("../fonts/HPESimple/HPESimpleWeb-Light.eot");
-  src: url("../fonts/HPESimple/HPESimpleWeb-Light.eot?#iefix") format("embedded-opentype"), url("../fonts/HPESimple/HPESimpleWeb-Light.woff") format("woff");
-  font-weight: 100;
-  font-style: normal;
-}
-
-/* HPE Simple LightOblique */
-@font-face {
-  font-family: "HPE Simple";
-  src: url("../fonts/HPESimple/HPESimpleWeb-LightOblique.eot");
-  src: url("../fonts/HPESimple/HPESimpleWeb-LightOblique.eot?#iefix") format("embedded-opentype"), url("../fonts/HPESimple/HPESimpleWeb-LightOblique.woff") format("woff");
-  font-weight: 100;
-  font-style: italic;
-}
-
-/* HPE Simple Regular */
-@font-face {
-  font-family: "HPE Simple";
-  src: url("../fonts/HPESimple/HPESimpleWeb-Regular.eot");
-  src: url("../fonts/HPESimple/HPESimpleWeb-Regular.eot?#iefix") format("embedded-opentype"), url("../fonts/HPESimple/HPESimpleWeb-Regular.woff") format("woff");
-  font-weight: 400;
-  font-style: normal;
-}
-
-/* HPE Simple Oblique */
-@font-face {
-  font-family: "HPE Simple";
-  src: url("../fonts/HPESimple/HPESimpleWeb-Oblique.eot");
-  src: url("../fonts/HPESimple/HPESimpleWeb-Oblique.eot?#iefix") format("embedded-opentype"), url("../fonts/HPESimple/HPESimpleWeb-Oblique.woff") format("woff");
-  font-weight: 400;
-  font-style: italic;
-}
-
-/* HPE Simple Bold */
-@font-face {
-  font-family: "HPE Simple";
-  src: url("../fonts/HPESimple/HPESimpleWeb-Bold.eot");
-  src: url("../fonts/HPESimple/HPESimpleWeb-Bold.eot?#iefix") format("embedded-opentype"), url("../fonts/HPESimple/HPESimpleWeb-Bold.woff") format("woff");
-  font-weight: 700;
-  font-style: normal;
-}
-
-/* HPE Simple BoldOblique */
-@font-face {
-  font-family: "HPE Simple";
-  src: url("../fonts/HPESimple/HPESimpleWeb-BoldOblique.eot");
-  src: url("../fonts/HPESimple/HPESimpleWeb-BoldOblique.eot?#iefix") format("embedded-opentype"), url("../fonts/HPESimple/HPESimpleWeb-BoldOblique.woff") format("woff");
-  font-weight: 700;
-  font-style: italic;
-}
-
 body {
   margin: 0;
   font-family: "MetricHPE", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 .number {
   font-family: "HPE Simple", Arial, sans-serif !important;
+}
+
+form > button {
+  margin-top: 10px;
 }
 
 a.active {
@@ -128,7 +23,7 @@ a.active::after {
   height: 80%;
   width: 4px;
   position: absolute;
-  right: 0;
+  right: -5px;
   top: 10%;
   background-color: #01a982;
 }
