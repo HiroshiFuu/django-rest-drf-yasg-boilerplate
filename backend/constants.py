@@ -1,5 +1,4 @@
 from django.conf import settings
-from django.utils.translation import gettext as _
 
 
 REST_FRAMEWORK = getattr(settings, 'REST_FRAMEWORK', None)

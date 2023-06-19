@@ -1,15 +1,10 @@
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 
-from .constants import ALLOWED_VERSIONS
-from .constants import RESPONSE_401_DATA
-from .constants import RESPONSE_403_DATA
-from .constants import RESPONSE_403_AUTH
-from .constants import RESPONSE_404_VERSION
-from .constants import RESPONSE_500_DATA
+from .constants import ALLOWED_VERSIONS, RESPONSE_401_DATA, RESPONSE_403_DATA, RESPONSE_403_AUTH, RESPONSE_404_VERSION, RESPONSE_500_DATA
 
 import copy
 
@@ -65,7 +60,7 @@ def restrict_admin(placeholder=None):
                     res_data = copy.deepcopy(RESPONSE_401_DATA)
                     res_data['message'] = 'Unauthorized with provided token.'
                     return Response(data=res_data, status=status.HTTP_401_UNAUTHORIZED)
-                user = User.objects.filter(id=token.user_id).first()
+                user = get_user_model().objects.filter(id=token.user_id).first()
                 if user.is_superuser:
                     return Response(data=RESPONSE_403_DATA, status=status.HTTP_403_FORBIDDEN)
             except Exception as e:
